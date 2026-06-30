@@ -55,3 +55,17 @@ After setting the variable, you can run the deployment with the Sepolia network:
 ```shell
 npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
 ```
+## Privacy-Preserving AI Bounty Judge
+
+This update replaces public answer submission with a commit-reveal flow.
+
+### Lifecycle
+
+1. The bounty owner creates a bounty with a reward, a submission deadline, and a reveal deadline.
+2. During the submission phase, participants submit only a commitment hash.
+3. The real answer stays hidden during the submission phase.
+4. After the submission deadline, participants reveal their answer and salt.
+5. The contract verifies the reveal with:
+
+```solidity
+keccak256(abi.encodePacked(answer, salt, msg.sender, bountyId))
